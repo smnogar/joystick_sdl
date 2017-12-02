@@ -1,27 +1,34 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(joystick_sdl)
 
-find_package(catkin REQUIRED COMPONENTS diagnostic_updater roscpp roslib sensor_msgs)
+ # Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
 
-include(FindPkgConfig)
-pkg_search_module(SDL2 REQUIRED sdl2)
-pkg_check_modules(SDL204 sdl2>=2.0.4)
+find_package(SDL2 REQUIRED)
+
+# set default build type
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE RelWithDebInfo)
+endif()
+
+find_package(catkin REQUIRED COMPONENTS roscpp diagnostic_updater sensor_msgs cmake_modules) 
+
+include_directories( include
+  ${SDL2_INCLUDE_DIRS}
+  ${catkin_INCLUDE_DIRS}
+)
 
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
-  CATKIN_DEPENDS diagnostic_updater roscpp sensor_msgs
-  DEPENDS ${SDL2_LIBRARIES}
-)
+  INCLUDE_DIRS
+  LIBRARIES
+  CATKIN_DEPENDS roscpp diagnostic_updater sensor_msgs
+  DEPENDS SDL2)
 
-include_directories(
-  include
-  ${SDL2_INCLUDE_DIRS}
-  ${CATKIN_INCLUDE_DIRS}
-)
 
-add_library(${PROJECT_NAME} src/joystick)
+add_library(${PROJECT_NAME} src/joystick.cpp)
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${catkin_LIBRARIES})
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
+
 if(SDL204_FOUND)
   set_property(TARGET ${PROJECT_NAME} PROPERTY COMPILE_DEFINITIONS SDL2_ENABLE_JOYSTICK_POWER_LEVEL)
 endif()

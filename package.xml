@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<package format="2">
+<package>
   <name>joystick_sdl</name>
   <version>0.0.0</version>
   <description>A cross-platform joystick node, backed by SDL2.</description>
@@ -8,11 +7,19 @@
   <maintainer email="mpurvis@clearpathrobotics.com">Mike Purvis</maintainer>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>diagnostic_updater</depend>
-  <depend>roscpp</depend>
-  <depend>roslib</depend>
-  <depend>sdl2</depend>
-  <depend>sensor_msgs</depend>
+
+  <build_depend>diagnostic_updater</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>roslib</build_depend>
+  <build_depend>sdl2</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+
+  <run_depend>diagnostic_updater</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>roslib</run_depend>
+  <run_depend>sdl2</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+
 
   <test_depend>roslint</test_depend>
 </package>
